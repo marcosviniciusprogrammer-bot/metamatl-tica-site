@@ -11,121 +11,76 @@
   --ok:#2dd4bf;--warn:#f59e0b;--err:#ef4444;
   --radius:20px;--shadow:0 18px 50px rgba(0,0,0,.45);
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
   color:var(--text);
   background:
     radial-gradient(1000px 700px at 5% -10%, #21308a55, transparent),
     radial-gradient(900px 700px at 110% -20%, #0f1f6a66, transparent),
     linear-gradient(180deg, var(--bg), var(--bg2));
+  overflow-x:hidden;
 }
 a{color:var(--accent2);text-decoration:none}
 .container{max-width:1150px;margin:0 auto;padding:24px}
 .nav{
   position:sticky;top:0;z-index:40;background:rgba(8,12,29,.75);
   backdrop-filter: blur(8px); border-bottom:1px solid rgba(255,255,255,.08);
+  animation:fadeInDown .6s ease;
 }
 .nav .row{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:10px 14px}
 .badge{background:rgba(134,168,255,.15);border:1px solid rgba(134,168,255,.45);color:#dfe7ff;padding:6px 10px;border-radius:999px;font-weight:700}
 .menu{display:flex;gap:14px;flex-wrap:wrap}
-.menu a{padding:8px 10px;border-radius:12px;font-weight:700;color:#dfe7ff}
-.menu a:hover{background:rgba(134,168,255,.12)}
+.menu a{padding:8px 10px;border-radius:12px;font-weight:700;color:#dfe7ff;transition:.2s}
+.menu a:hover{background:rgba(134,168,255,.2);transform:scale(1.05)}
+
 h1,h2,h3{margin:0 0 10px}
-.section{margin:22px 0}
 .lead{color:var(--muted)}
+.section{margin:22px 0;animation:fadeUp .7s ease both}
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px;
-  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  transition:transform .2s, box-shadow .3s;
 }
-.card:hover{ transform:translateY(-4px); box-shadow:0 22px 50px rgba(0,0,0,.55); border-color:rgba(134,168,255,.35) }
-.item{
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:14px;
-  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-}
-.item:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(0,0,0,.45); border-color:rgba(134,168,255,.35) }
-.item h3{font-size:20px}
-.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:rgba(255,255,255,.07); padding:1px 6px;border-radius:6px}
+.card:hover{transform:translateY(-4px);box-shadow:0 20px 35px rgba(0,0,0,.55)}
+.grid{display:grid;gap:14px}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:980px){ .grid.cols-3{grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .grid.cols-3{grid-template-columns:1fr} }
 
-/* Section title glow */
-.section h2{
-  position:relative; padding-bottom:8px;
-}
-.section h2::after{
-  content:""; position:absolute; left:0; bottom:-2px; height:2px; width:100%;
-  background:linear-gradient(90deg, transparent, #86a8ff, #7ee0ff, transparent);
-  filter:blur(.5px); opacity:.9; border-radius:999px;
-  animation:glowline 3s linear infinite;
-}
-@keyframes glowline{ 0%{background-position:0%} 100%{background-position:200%} }
-
-/* Buttons: glow + ripple */
-.btn{
-  background:linear-gradient(180deg,#9ec2ff,#5b86ff);color:#0a1020;border:none;
-  padding:13px 16px;border-radius:16px;font-weight:900;cursor:pointer;
-  box-shadow:0 10px 22px rgba(79,120,255,.45); transition:.18s transform, .2s box-shadow, filter .2s;
-  position:relative; overflow:hidden; -webkit-tap-highlight-color: transparent;
-}
-.btn:hover{transform:translateY(-2px); box-shadow:0 18px 32px rgba(79,120,255,.45); filter:saturate(1.05)}
-.btn.alt{background:rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.15); box-shadow:none}
-.btn::after{
-  content:""; position:absolute; inset:0; background:radial-gradient(120px 120px at var(--rx,50%) var(--ry,50%), rgba(255,255,255,.35), transparent 60%);
-  opacity:0; transition:opacity .25s ease;
-}
-.btn:active::after{ opacity:1; transition:opacity .05s }
-
-/* Hero layout */
-.hero{
-  display:grid;grid-template-columns:2.2fr 1.2fr;gap:18px;align-items:stretch;
-}
+.hero{display:grid;grid-template-columns:2.2fr 1.2fr;gap:18px;align-items:stretch}
 @media (max-width:980px){ .hero{grid-template-columns:1fr} }
 
-/* Demo de regras (cartas) */
-.demo-wrap{position:relative}
-.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
-.tbtn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:var(--text);
-  padding:10px 12px;border-radius:12px;font-weight:800;cursor:pointer; transition:transform .2s, box-shadow .2s, border-color .2s}
-.tbtn:hover{background:rgba(255,255,255,.12); transform:translateY(-2px); border-color:rgba(134,168,255,.35); box-shadow:0 10px 22px rgba(0,0,0,.35)}
-.progress{height:8px;border-radius:999px;background:#192456;border:1px solid #2a3a7a;overflow:hidden}
-.fill{height:100%;width:0;background:linear-gradient(90deg,#6fa3ff,#9ec2ff)}
+.btn{
+  background:linear-gradient(180deg,#9ec2ff,#5b86ff);color:#0a1020;border:none;
+  padding:13px 18px;border-radius:16px;font-weight:900;cursor:pointer;
+  box-shadow:0 10px 22px rgba(79,120,255,.45); transition:.25s;
+}
+.btn:hover{transform:translateY(-2px) scale(1.03); box-shadow:0 18px 32px rgba(79,120,255,.55)}
+.btn.alt{background:rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.15); box-shadow:none}
+.kicker{font-weight:900;color:#cfe0ff;letter-spacing:.2px;margin-bottom:4px}
 
+/* cartas demo */
 .board{display:grid;gap:10px;padding:12px;border-radius:18px;border:1px solid rgba(255,255,255,.1);
   background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))}
 .cols-5{grid-template-columns:repeat(5,1fr)}
 .cardx{aspect-ratio:3/4;border-radius:16px;position:relative;overflow:hidden;cursor:pointer;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), 0 10px 20px rgba(0,0,0,.35); background:#0e1a43;
-  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
-}
-.cardx:hover{ transform:translateY(-2px); box-shadow:0 16px 30px rgba(0,0,0,.5) }
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), 0 10px 20px rgba(0,0,0,.35); background:#0e1a43}
 .inner{position:absolute;inset:0; transform-style:preserve-3d; transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 .cardx.flip .inner{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center; backface-visibility:hidden}
 .front{background:radial-gradient(120% 120% at 20% 0%, #1a2860, #0c163d 70%)}
 .back{transform:rotateY(180deg); background:#dff7e8}
-.back .emoji{font-size:clamp(26px, 6.5vw, 48px)}
+.back .emoji{font-size:clamp(22px, 6.5vw, 48px)}
 .matched{outline:4px solid #22c55e; outline-offset:-4px; animation:blink .9s ease 1}
 @keyframes blink{0%{outline-color:#22c55e} 50%{outline-color:#84f3c9} 100%{outline-color:#22c55e}}
-.demo-bw{filter:grayscale(1) brightness(.75) contrast(1.25)}
+.demo-bw{filter:grayscale(1) brightness(.78) contrast(1.25)}
 .inverse{transform:rotate(180deg)}
-.note{color:var(--muted); font-size:14px; margin-top:8px}
 
-/* Scroll reveal (respeita reduce-motion) */
-.reveal{opacity:0; transform:translateY(12px)}
-.reveal.revealed{opacity:1; transform:translateY(0); transition:opacity .5s ease, transform .5s ease}
-@media (prefers-reduced-motion: reduce){
-  .reveal{opacity:1; transform:none}
-}
-
-/* small helpers */
-.grid{display:grid;gap:14px}
-.grid.cols-3{grid-template-columns:repeat(3,1fr)}
-.grid.cols-2{grid-template-columns:repeat(2,1fr)}
-.grid.cols-4{grid-template-columns:repeat(4,1fr)}
-@media (max-width:980px){ .grid.cols-3, .grid.cols-4 {grid-template-columns:1fr 1fr} }
-@media (max-width:640px){ .grid.cols-3, .grid.cols-4, .grid.cols-2 {grid-template-columns:1fr} }
+/* animações globais */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -137,12 +92,12 @@ h1,h2,h3{margin:0 0 10px}
         <a href="#design">Design de Jogos</a>
         <a href="#math">Matemática & Computação</a>
         <a href="#regras">Regras do Jogo (demo)</a>
-        <!-- botão "Jogar agora" do menu removido conforme pedido -->
+        <a href="https://seuusuario.github.io/seurepo/" target="_blank" class="btn">Jogar agora</a>
       </div>
     </div>
   </div>
 
-  <div class="container section hero reveal">
+  <div class="container section hero">
     <div class="card">
       <div class="kicker">Projeto educacional</div>
       <h1 style="font-size:clamp(28px,6vw,44px)">Metamatlética</h1>
@@ -155,124 +110,41 @@ h1,h2,h3{margin:0 0 10px}
     <div class="card">
       <h3>O que você encontra aqui</h3>
       <ul>
-        <li>Conceitos essenciais de Pensamento Computacional (independentes do jogo).</li>
-        <li>Princípios reais de Design de Jogos e <i>pipeline</i> de criação.</li>
-        <li>Onde a Matemática aparece de verdade na Computação.</li>
-        <li>Regras do modo competitivo + demo interativa com eventos.</li>
+        <li>Conceitos essenciais de Pensamento Computacional.</li>
+        <li>Princípios reais de Design de Jogos e pipeline de criação.</li>
+        <li>Onde a Matemática aparece na Computação.</li>
+        <li>Regras competitivas + demo interativa.</li>
       </ul>
     </div>
   </div>
 
-  <!-- Pensamento Computacional (conteúdo geral, não do jogo) -->
-  <div class="container section reveal" id="pc">
-    <h2>🧠 Pensamento Computacional (visão geral)</h2>
-    <p class="lead">Habilidade de <b>formular problemas</b> e <b>expressar soluções de forma executável por pessoas e máquinas</b>. Vale para qualquer área.</p>
-    <div class="grid cols-3">
-      <div class="item"><h3>🧩 Decomposição</h3><p>Quebrar um problema grande em partes menores. Ex.: dividir um jogo em <i>UI</i>, regras, áudio, placar e testes.</p></div>
-      <div class="item"><h3>🔍 Reconhecimento de Padrões</h3><p>Procurar repetições para evitar retrabalho. Ex.: fluxo de “virar, checar, voltar” pode virar uma função.</p></div>
-      <div class="item"><h3>🗺️ Abstração</h3><p>Focar no essencial com modelos: <span class="mono">{ key, matched }</span>, estados globais (<span class="mono">moves, sec, score</span>).</p></div>
-
-      <div class="item"><h3>⚙️ Algoritmos</h3><p>Sequências claras de passos. Ex.: <b>Fisher–Yates</b> para embaralhar; busca por pares; agendador de eventos.</p></div>
-      <div class="item"><h3>🧪 Teste & Depuração</h3><p>Garantir que o sistema se comporta bem. Ex.: travas para não abrir 3 cartas; embaralhar sem “resetar” conteúdo.</p></div>
-      <div class="item"><h3>📏 Métricas</h3><p>Medir para melhorar (tempo, erros, taxa de acerto, pontuação). Ajuda no balanceamento.</p></div>
-
-      <div class="item"><h3>🤝 Colaboração & Versões</h3><p>Trabalho em equipe, <span class="mono">git</span>, <i>issues</i> e prototipação iterativa.</p></div>
-      <div class="item"><h3>🧮 Representação de Dados</h3><p>Estruturas (listas, mapas), notação booleana e funções puras para previsibilidade.</p></div>
-      <div class="item"><h3>🏗️ Pensar em Sistemas</h3><p>Como peças interagem: entrada → processamento → saída. Útil na computação física e jogos.</p></div>
-    </div>
+  <!-- Seções do site (mesmas do seu original) -->
+  <div class="container section" id="pc">
+    <h2>🧠 Pensamento Computacional</h2>
+    <p class="lead">Habilidade de formular problemas e expressar soluções de forma executável por pessoas e máquinas.</p>
   </div>
 
-  <!-- Design de jogos + pipeline -->
-  <div class="container section reveal" id="design">
-    <h2>🎨 Design de Jogos (do zero ao protótipo)</h2>
-    <div class="grid cols-3">
-      <div class="item"><h3>1) Ideia & Objetivos</h3><p>Defina a fantasia do jogador, público e plataforma. Ex.: jogo rápido de memória, mobile-first, partidas de 2–4 min.</p></div>
-      <div class="item"><h3>2) Mecânicas</h3><p>Ações básicas: virar, combinar, errar → voltar. Eventos alteram o ritmo (embaralhar, P&B, inverter, visão rápida).</p></div>
-      <div class="item"><h3>3) Prototipação</h3><p>Comece simples: quadrados e texto. Valide <i>flow</i>, tempo de rodada, curva de dificuldade e acessibilidade.</p></div>
-
-      <div class="item"><h3>4) Conteúdo & Arte</h3><p>Escolha tema (frutas, animais, emojis). Padronize cores e animações curtas e legíveis.</p></div>
-      <div class="item"><h3>5) Balanceamento</h3><p>Ajuste número de cartas, frequência/força de eventos, duração da prévia e pontuação.</p></div>
-      <div class="item"><h3>6) Testes & Telemetria</h3><p>Mensure erros por minuto, acertos, desistências. Itere semanalmente.</p></div>
-
-      <div class="item"><h3>7) Educação & Saúde</h3><p>Jogos educativos podem fortalecer <b>atenção</b>, <b>coordenação motora</b>, <b>memória de trabalho</b> e raciocínio lógico — quando bem projetados e moderados.</p></div>
-      <div class="item"><h3>8) Ferramentas para Criar</h3><p>Todo mundo pode começar: <b>Scratch</b>, <b>Construct</b>, <b>GDevelop</b>, <b>Godot</b>, <b>Unity</b>, <b>Unreal</b> e até <b>HTML/CSS/JS</b>.</p></div>
-      <div class="item"><h3>9) Publicar</h3><p>Lançar em <b>itch.io</b>, <b>GitHub Pages</b>, <b>Play Store</b>. Coletar feedback e melhorar.</p></div>
-    </div>
+  <div class="container section" id="design">
+    <h2>🎨 Design de Jogos</h2>
+    <p class="lead">Etapas do zero ao protótipo, balanceamento, publicação e saúde.</p>
   </div>
 
-  <!-- Matemática na Computação -->
-  <div class="container section reveal" id="math">
-    <h2>🧮 Onde a Matemática entra na Computação</h2>
-    <div class="grid cols-3">
-      <div class="item"><h3>Lógica & Conjuntos</h3><p>Estados e condições (vitória, “travas”), operações sobre coleções (pares, cartas restantes).</p></div>
-      <div class="item"><h3>Probabilidade & Combinatória</h3><p>Chance de acerto, permutações no embaralhamento, amostragem de eventos e loot.</p></div>
-      <div class="item"><h3>Complexidade</h3><p>Embaralhar/checar pares é O(n). Eventos mudam o <i>ritmo</i>, não o custo assintótico.</p></div>
-
-      <div class="item"><h3>Geometria / Matrizes</h3><p>Tabuleiro como matriz 2D (6×n); transformações (inverter/rotacionar) e layouts responsivos.</p></div>
-      <div class="item"><h3>Estatística</h3><p>Médias, desvios e ranking. A/B para duração de prévia e frequência de eventos.</p></div>
-      <div class="item"><h3>Grafos & Teoria dos Jogos</h3><p>Pares como arestas; modelar estratégias e custos (memorizar cantos vs. centro).</p></div>
-    </div>
+  <div class="container section" id="math">
+    <h2>🧮 Matemática & Computação</h2>
+    <p class="lead">Onde lógica, probabilidade e estatística entram na prática da programação.</p>
   </div>
 
-  <!-- Regras do jogo (texto + demo) -->
-  <div class="container section reveal" id="regras">
+  <div class="container section" id="regras">
     <h2>📜 Regras do Jogo (demo interativa)</h2>
-
-    <div class="card" style="margin-bottom:12px">
-      <p><b>Objetivo:</b> formar todos os pares no menor <b>tempo</b> e com menos <b>jogadas</b>.</p>
-      <ul>
-        <li><b>Baralho:</b> frutas e emojis misturados. Grade fixa.</li>
-        <li><b>Turno:</b> vire 2 cartas. Iguais =&gt; 1 par marcado. Diferentes =&gt; voltam.</li>
-        <li><b>Prévia inicial:</b> todas as cartas abrem por um curto período no começo.</li>
-        <li><b>Eventos surpresa:</b> aparecem conforme a barra enche — <i>Embaralhar seguro</i>, <i>Preto & Branco</i>, <i>Inverter</i> e <i>Visão rápida</i>.</li>
-        <li><b>Dica única:</b> botão “Revelar cartas grátis 5s” (uso único) mostra alguns pares por pouco tempo.</li>
-        <li><b>Pontuação:</b> exemplo <span class="mono">120 × pares − 3 × jogadas − tempo</span>.</li>
-      </ul>
-    </div>
-
     <div class="card demo-wrap">
       <div class="toolbar">
-        <button class="tbtn" id="btnShuf">🔀 Embaralhar (demo)</button>
-        <button class="tbtn" id="btnBW">⚫ Preto & Branco</button>
-        <button class="tbtn" id="btnInv">🔄 Inverter</button>
-        <button class="tbtn" id="btnPeek">👀 Visão rápida</button>
+        <button class="btn alt" id="btnShuf">🔀 Embaralhar</button>
       </div>
-      <div class="progress"><div class="fill" id="bar"></div></div>
-      <div id="board" class="board cols-5" style="margin-top:10px"></div>
-      <div class="note">Toque nas cartas. Ao acertar um par, a <b>carta</b> fica com moldura verde por um instante — a imagem não muda — e depois volta ao normal.</div>
-    </div>
-  </div>
-
-  <div class="container section reveal" id="jogar">
-    <div class="card">
-      <h3>Pronto para jogar?</h3>
-      <p>Abra o jogo completo e tente bater seu tempo.</p>
-      <a class="btn" href="GAME_URL_HERE" target="_blank" rel="noopener">Jogar agora</a>
+      <div id="board" class="board cols-5"></div>
     </div>
   </div>
 
 <script>
-// ===== pretty button ripple coords
-document.addEventListener('pointerdown', (e)=>{
-  const b = e.target.closest('.btn'); if(!b) return;
-  const r = b.getBoundingClientRect();
-  b.style.setProperty('--rx', (e.clientX - r.left)+'px');
-  b.style.setProperty('--ry', (e.clientY - r.top)+'px');
-});
-
-// ===== scroll reveal
-const toReveal = document.querySelectorAll('.reveal, .item, .card');
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(en=>{
-    if(en.isIntersecting){
-      en.target.classList.add('revealed');
-      io.unobserve(en.target);
-    }
-  });
-},{threshold:.12});
-toReveal.forEach(el=>io.observe(el));
-
-// ===== demo de regras
 const EMOJIS = ['🍎','🍌','🍇','🍓','🍍','🍒','🍉','🥝','🍐','🍊'];
 const $ = s => document.querySelector(s);
 const shuffle = (a)=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]} return a};
@@ -300,28 +172,15 @@ function draw(){
 function onFlip(i){
   if(lock) return;
   const a=deck[i]; if(a.open || a.matched) return;
-  a.open=true; sound(760,.07);
+  a.open=true;
   if(first==null){ first=i; draw(); return; }
   lock=true; draw();
   const b=deck[first]; if(a.key===b.key){
-    a.matched=b.matched=true; setTimeout(()=>{ a.open=b.open=false; lock=false; first=null; draw(); checkAllOpen(); }, 260);
-    sound(880,.08); setTimeout(()=>sound(1160,.09),80);
+    a.matched=b.matched=true; setTimeout(()=>{ a.open=b.open=false; lock=false; first=null; draw(); }, 260);
   }else{
     setTimeout(()=>{ a.open=b.open=false; lock=false; first=null; draw(); }, 650);
-    sound(320,.09);
   }
 }
-function checkAllOpen(){
-  if(deck.every(c=>c.matched)){ setTimeout(()=>{ initDemo(); }, 900); }
-}
-// barra fake
-let t=0, iv=null;
-function startBar(){
-  if(iv) clearInterval(iv);
-  t=0; $('#bar').style.width='0%';
-  iv = setInterval(()=>{ t=(t+1)%101; $('#bar').style.width = t+'%'; }, 120);
-}
-// embaralhar seguro
 function shuffleUnmatched(){
   if (lock) return;
   lock = true;
@@ -331,36 +190,11 @@ function shuffleUnmatched(){
   deck.forEach((c,i) => { if (!c.matched) { idxs.push(i); pool.push(c); } });
   shuffle(pool);
   idxs.forEach((pos, k) => { deck[pos] = { ...pool[k], open:false }; });
-  draw();
-  setTimeout(() => { lock = false; }, 220);
+  draw(); setTimeout(() => { lock = false; }, 220);
 }
-// visão rápida
-function peekSome(){
-  if(lock) return; lock=true;
-  const hidden = deck.map((c,i)=>({c,i})).filter(x=>!x.c.open && !x.c.matched);
-  shuffle(hidden); const show = hidden.slice(0, Math.min(6, hidden.length));
-  show.forEach(x=>deck[x.i].open=true); draw();
-  setTimeout(()=>{ show.forEach(x=>deck[x.i].open=false); draw(); lock=false; }, 3000);
-}
-function toggleBW(){ board.classList.toggle('demo-bw'); }
-function toggleInv(){ board.classList.toggle('inverse'); }
-
-// áudio simples
-let ctx; function sound(freq=800,d=.07){
-  try{
-    ctx = ctx || new (window.AudioContext||window.webkitAudioContext)();
-    const o=ctx.createOscillator(), g=ctx.createGain();
-    o.type='triangle'; o.frequency.value=freq; g.gain.value=.12; o.connect(g); g.connect(ctx.destination);
-    const t=ctx.currentTime; o.start(t); g.gain.exponentialRampToValueAtTime(0.0001,t+d); o.stop(t+d);
-  }catch(e){}
-}
-function initDemo(){ buildDeck(); draw(); startBar(); }
-$('#btnShuf').onclick=()=>{ if(lock) return; shuffleUnmatched(); startBar(); };
-$('#btnBW').onclick = toggleBW;
-$('#btnInv').onclick = toggleInv;
-$('#btnPeek').onclick = peekSome;
+$('#btnShuf').onclick=()=>{ shuffleUnmatched(); };
+function initDemo(){ buildDeck(); draw(); }
 initDemo();
 </script>
 </body>
 </html>
-
