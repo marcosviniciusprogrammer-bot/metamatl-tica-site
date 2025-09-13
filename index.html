@@ -10,9 +10,11 @@
   --text:#eaf1ff;--muted:#b7c2df;--accent:#86a8ff;--accent2:#7ee0ff;
   --ok:#2dd4bf;--warn:#f59e0b;--err:#ef4444;
   --radius:20px;--shadow:0 18px 50px rgba(0,0,0,.45);
+  --navh:72px; /* altura usada para offset dos âncoras */
 }
 *{box-sizing:border-box}
 html,body{height:100%}
+html{scroll-behavior:smooth}
 body{
   margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
   color:var(--text);
@@ -21,26 +23,39 @@ body{
     radial-gradient(900px 700px at 110% -20%, #0f1f6a66, transparent),
     linear-gradient(180deg, var(--bg), var(--bg2));
 }
+/* fundo simplificado no mobile para evitar "duas cores" */
+@media (max-width:560px){
+  body{background:linear-gradient(180deg, var(--bg), var(--bg2))}
+}
 a{color:var(--accent2);text-decoration:none}
 .container{max-width:1150px;margin:0 auto;padding:24px}
+.section{margin:22px 0; scroll-margin-top: var(--navh);}
+
 .nav{
-  position:sticky;top:0;z-index:40;background:rgba(8,12,29,.75);
-  backdrop-filter: blur(8px); border-bottom:1px solid rgba(255,255,255,.08);
+  position:sticky;top:0;z-index:50;
+  background:rgba(8,12,29,.85); /* mais opaco pra não “manchar” o conteúdo */
+  backdrop-filter: blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  height:var(--navh);
+  display:flex;align-items:center;
 }
-.nav .row{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:10px 14px}
+.nav .row{display:flex;gap:16px;align-items:center;justify-content:space-between;width:100%;padding:10px 14px}
 .badge{background:rgba(134,168,255,.15);border:1px solid rgba(134,168,255,.45);color:#dfe7ff;padding:6px 10px;border-radius:999px;font-weight:700}
 .menu{display:flex;gap:14px;flex-wrap:wrap}
 .menu a{padding:8px 10px;border-radius:12px;font-weight:700;color:#dfe7ff}
 .menu a:hover{background:rgba(134,168,255,.12)}
+
 h1,h2,h3{margin:0 0 10px}
-.section{margin:22px 0}
 .lead{color:var(--muted)}
+
+/* cards e itens com hover suave */
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px;
   transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 .card:hover{ transform:translateY(-4px); box-shadow:0 22px 50px rgba(0,0,0,.55); border-color:rgba(134,168,255,.35) }
+
 .item{
   background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:14px;
@@ -50,19 +65,16 @@ h1,h2,h3{margin:0 0 10px}
 .item h3{font-size:20px}
 .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:rgba(255,255,255,.07); padding:1px 6px;border-radius:6px}
 
-/* Section title glow */
-.section h2{
-  position:relative; padding-bottom:8px;
-}
+/* título com glow */
+.section h2{ position:relative; padding-bottom:8px; }
 .section h2::after{
   content:""; position:absolute; left:0; bottom:-2px; height:2px; width:100%;
   background:linear-gradient(90deg, transparent, #86a8ff, #7ee0ff, transparent);
-  filter:blur(.5px); opacity:.9; border-radius:999px;
-  animation:glowline 3s linear infinite;
+  filter:blur(.5px); opacity:.9; border-radius:999px; animation:glowline 3s linear infinite;
 }
 @keyframes glowline{ 0%{background-position:0%} 100%{background-position:200%} }
 
-/* Buttons: glow + ripple */
+/* botões com glow + ripple */
 .btn{
   background:linear-gradient(180deg,#9ec2ff,#5b86ff);color:#0a1020;border:none;
   padding:13px 16px;border-radius:16px;font-weight:900;cursor:pointer;
@@ -77,13 +89,19 @@ h1,h2,h3{margin:0 0 10px}
 }
 .btn:active::after{ opacity:1; transition:opacity .05s }
 
-/* Hero layout */
-.hero{
-  display:grid;grid-template-columns:2.2fr 1.2fr;gap:18px;align-items:stretch;
-}
+/* hero */
+.hero{ display:grid;grid-template-columns:2.2fr 1.2fr;gap:18px;align-items:stretch; }
 @media (max-width:980px){ .hero{grid-template-columns:1fr} }
 
-/* Demo de regras (cartas) */
+/* grid helper */
+.grid{display:grid;gap:14px}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.grid.cols-4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:980px){ .grid.cols-3, .grid.cols-4 {grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .grid.cols-3, .grid.cols-4, .grid.cols-2 {grid-template-columns:1fr} }
+
+/* Demo (cartas) */
 .demo-wrap{position:relative}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
 .tbtn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:var(--text);
@@ -112,20 +130,10 @@ h1,h2,h3{margin:0 0 10px}
 .inverse{transform:rotate(180deg)}
 .note{color:var(--muted); font-size:14px; margin-top:8px}
 
-/* Scroll reveal (respeita reduce-motion) */
+/* Scroll reveal (com fallback) */
 .reveal{opacity:0; transform:translateY(12px)}
 .reveal.revealed{opacity:1; transform:translateY(0); transition:opacity .5s ease, transform .5s ease}
-@media (prefers-reduced-motion: reduce){
-  .reveal{opacity:1; transform:none}
-}
-
-/* small helpers */
-.grid{display:grid;gap:14px}
-.grid.cols-3{grid-template-columns:repeat(3,1fr)}
-.grid.cols-2{grid-template-columns:repeat(2,1fr)}
-.grid.cols-4{grid-template-columns:repeat(4,1fr)}
-@media (max-width:980px){ .grid.cols-3, .grid.cols-4 {grid-template-columns:1fr 1fr} }
-@media (max-width:640px){ .grid.cols-3, .grid.cols-4, .grid.cols-2 {grid-template-columns:1fr} }
+@media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none} }
 </style>
 </head>
 <body>
@@ -137,7 +145,6 @@ h1,h2,h3{margin:0 0 10px}
         <a href="#design">Design de Jogos</a>
         <a href="#math">Matemática & Computação</a>
         <a href="#regras">Regras do Jogo (demo)</a>
-        <!-- botão "Jogar agora" do menu removido conforme pedido -->
       </div>
     </div>
   </div>
@@ -163,7 +170,7 @@ h1,h2,h3{margin:0 0 10px}
     </div>
   </div>
 
-  <!-- Pensamento Computacional (conteúdo geral, não do jogo) -->
+  <!-- Pensamento Computacional -->
   <div class="container section reveal" id="pc">
     <h2>🧠 Pensamento Computacional (visão geral)</h2>
     <p class="lead">Habilidade de <b>formular problemas</b> e <b>expressar soluções de forma executável por pessoas e máquinas</b>. Vale para qualquer área.</p>
@@ -171,50 +178,45 @@ h1,h2,h3{margin:0 0 10px}
       <div class="item"><h3>🧩 Decomposição</h3><p>Quebrar um problema grande em partes menores. Ex.: dividir um jogo em <i>UI</i>, regras, áudio, placar e testes.</p></div>
       <div class="item"><h3>🔍 Reconhecimento de Padrões</h3><p>Procurar repetições para evitar retrabalho. Ex.: fluxo de “virar, checar, voltar” pode virar uma função.</p></div>
       <div class="item"><h3>🗺️ Abstração</h3><p>Focar no essencial com modelos: <span class="mono">{ key, matched }</span>, estados globais (<span class="mono">moves, sec, score</span>).</p></div>
-
       <div class="item"><h3>⚙️ Algoritmos</h3><p>Sequências claras de passos. Ex.: <b>Fisher–Yates</b> para embaralhar; busca por pares; agendador de eventos.</p></div>
       <div class="item"><h3>🧪 Teste & Depuração</h3><p>Garantir que o sistema se comporta bem. Ex.: travas para não abrir 3 cartas; embaralhar sem “resetar” conteúdo.</p></div>
       <div class="item"><h3>📏 Métricas</h3><p>Medir para melhorar (tempo, erros, taxa de acerto, pontuação). Ajuda no balanceamento.</p></div>
-
       <div class="item"><h3>🤝 Colaboração & Versões</h3><p>Trabalho em equipe, <span class="mono">git</span>, <i>issues</i> e prototipação iterativa.</p></div>
       <div class="item"><h3>🧮 Representação de Dados</h3><p>Estruturas (listas, mapas), notação booleana e funções puras para previsibilidade.</p></div>
       <div class="item"><h3>🏗️ Pensar em Sistemas</h3><p>Como peças interagem: entrada → processamento → saída. Útil na computação física e jogos.</p></div>
     </div>
   </div>
 
-  <!-- Design de jogos + pipeline -->
+  <!-- Design de jogos -->
   <div class="container section reveal" id="design">
     <h2>🎨 Design de Jogos (do zero ao protótipo)</h2>
     <div class="grid cols-3">
       <div class="item"><h3>1) Ideia & Objetivos</h3><p>Defina a fantasia do jogador, público e plataforma. Ex.: jogo rápido de memória, mobile-first, partidas de 2–4 min.</p></div>
       <div class="item"><h3>2) Mecânicas</h3><p>Ações básicas: virar, combinar, errar → voltar. Eventos alteram o ritmo (embaralhar, P&B, inverter, visão rápida).</p></div>
       <div class="item"><h3>3) Prototipação</h3><p>Comece simples: quadrados e texto. Valide <i>flow</i>, tempo de rodada, curva de dificuldade e acessibilidade.</p></div>
-
       <div class="item"><h3>4) Conteúdo & Arte</h3><p>Escolha tema (frutas, animais, emojis). Padronize cores e animações curtas e legíveis.</p></div>
       <div class="item"><h3>5) Balanceamento</h3><p>Ajuste número de cartas, frequência/força de eventos, duração da prévia e pontuação.</p></div>
       <div class="item"><h3>6) Testes & Telemetria</h3><p>Mensure erros por minuto, acertos, desistências. Itere semanalmente.</p></div>
-
       <div class="item"><h3>7) Educação & Saúde</h3><p>Jogos educativos podem fortalecer <b>atenção</b>, <b>coordenação motora</b>, <b>memória de trabalho</b> e raciocínio lógico — quando bem projetados e moderados.</p></div>
       <div class="item"><h3>8) Ferramentas para Criar</h3><p>Todo mundo pode começar: <b>Scratch</b>, <b>Construct</b>, <b>GDevelop</b>, <b>Godot</b>, <b>Unity</b>, <b>Unreal</b> e até <b>HTML/CSS/JS</b>.</p></div>
       <div class="item"><h3>9) Publicar</h3><p>Lançar em <b>itch.io</b>, <b>GitHub Pages</b>, <b>Play Store</b>. Coletar feedback e melhorar.</p></div>
     </div>
   </div>
 
-  <!-- Matemática na Computação -->
+  <!-- Matemática -->
   <div class="container section reveal" id="math">
     <h2>🧮 Onde a Matemática entra na Computação</h2>
     <div class="grid cols-3">
       <div class="item"><h3>Lógica & Conjuntos</h3><p>Estados e condições (vitória, “travas”), operações sobre coleções (pares, cartas restantes).</p></div>
       <div class="item"><h3>Probabilidade & Combinatória</h3><p>Chance de acerto, permutações no embaralhamento, amostragem de eventos e loot.</p></div>
       <div class="item"><h3>Complexidade</h3><p>Embaralhar/checar pares é O(n). Eventos mudam o <i>ritmo</i>, não o custo assintótico.</p></div>
-
       <div class="item"><h3>Geometria / Matrizes</h3><p>Tabuleiro como matriz 2D (6×n); transformações (inverter/rotacionar) e layouts responsivos.</p></div>
       <div class="item"><h3>Estatística</h3><p>Médias, desvios e ranking. A/B para duração de prévia e frequência de eventos.</p></div>
       <div class="item"><h3>Grafos & Teoria dos Jogos</h3><p>Pares como arestas; modelar estratégias e custos (memorizar cantos vs. centro).</p></div>
     </div>
   </div>
 
-  <!-- Regras do jogo (texto + demo) -->
+  <!-- Regras + Demo -->
   <div class="container section reveal" id="regras">
     <h2>📜 Regras do Jogo (demo interativa)</h2>
 
@@ -243,16 +245,20 @@ h1,h2,h3{margin:0 0 10px}
     </div>
   </div>
 
+  <!-- CTA Jogar -->
   <div class="container section reveal" id="jogar">
     <div class="card">
       <h3>Pronto para jogar?</h3>
       <p>Abra o jogo completo e tente bater seu tempo.</p>
-      <a class="btn" href="GAME_URL_HERE" target="_blank" rel="noopener">Jogar agora</a>
+      <a class="btn" href="#" data-play>Jogar agora</a>
     </div>
   </div>
 
 <script>
-// ===== pretty button ripple coords
+/* ====== Coloque aqui o link REAL do seu jogo ====== */
+const GAME_URL = 'https://seu-jogo-aqui.com'; // EXEMPLO. Troque por https://seuusuario.github.io/seu-jogo/ ou Itch.io
+
+// Ripple coords
 document.addEventListener('pointerdown', (e)=>{
   const b = e.target.closest('.btn'); if(!b) return;
   const r = b.getBoundingClientRect();
@@ -260,19 +266,35 @@ document.addEventListener('pointerdown', (e)=>{
   b.style.setProperty('--ry', (e.clientY - r.top)+'px');
 });
 
-// ===== scroll reveal
+// Scroll reveal
 const toReveal = document.querySelectorAll('.reveal, .item, .card');
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(en=>{
-    if(en.isIntersecting){
-      en.target.classList.add('revealed');
-      io.unobserve(en.target);
+if ('IntersectionObserver' in window){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('revealed');
+        io.unobserve(en.target);
+      }
+    });
+  },{threshold:.12});
+  toReveal.forEach(el=>io.observe(el));
+}else{
+  toReveal.forEach(el=>el.classList.add('revealed'));
+}
+
+// Botão Jogar (garante que não dá 404 se esquecer de setar)
+document.querySelectorAll('[data-play]').forEach(btn=>{
+  btn.addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    if(/^https?:\/\//i.test(GAME_URL)){
+      window.open(GAME_URL, '_blank', 'noopener');
+    }else{
+      alert('Defina o link do jogo na constante GAME_URL.');
     }
   });
-},{threshold:.12});
-toReveal.forEach(el=>io.observe(el));
+});
 
-// ===== demo de regras
+// ===== Demo das cartas =====
 const EMOJIS = ['🍎','🍌','🍇','🍓','🍍','🍒','🍉','🥝','🍐','🍊'];
 const $ = s => document.querySelector(s);
 const shuffle = (a)=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]} return a};
@@ -314,14 +336,14 @@ function onFlip(i){
 function checkAllOpen(){
   if(deck.every(c=>c.matched)){ setTimeout(()=>{ initDemo(); }, 900); }
 }
-// barra fake
+// barra “fake” de eventos
 let t=0, iv=null;
 function startBar(){
   if(iv) clearInterval(iv);
   t=0; $('#bar').style.width='0%';
   iv = setInterval(()=>{ t=(t+1)%101; $('#bar').style.width = t+'%'; }, 120);
 }
-// embaralhar seguro
+// embaralhar seguro (sem travar/sem 3 abertas)
 function shuffleUnmatched(){
   if (lock) return;
   lock = true;
