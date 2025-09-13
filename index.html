@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
@@ -33,43 +33,62 @@ a{color:var(--accent2);text-decoration:none}
 .menu a{padding:8px 10px;border-radius:12px;font-weight:700;color:#dfe7ff}
 .menu a:hover{background:rgba(134,168,255,.12)}
 h1,h2,h3{margin:0 0 10px}
-.lead{color:var(--muted)}
 .section{margin:22px 0}
+.lead{color:var(--muted)}
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-.grid{display:grid;gap:14px}
-.grid.cols-3{grid-template-columns:repeat(3,1fr)}
-.grid.cols-2{grid-template-columns:repeat(2,1fr)}
-.grid.cols-4{grid-template-columns:repeat(4,1fr)}
-@media (max-width:980px){ .grid.cols-3, .grid.cols-4 {grid-template-columns:1fr 1fr} }
-@media (max-width:640px){ .grid.cols-3, .grid.cols-4, .grid.cols-2 {grid-template-columns:1fr} }
+.card:hover{ transform:translateY(-4px); box-shadow:0 22px 50px rgba(0,0,0,.55); border-color:rgba(134,168,255,.35) }
+.item{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:14px;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.item:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(0,0,0,.45); border-color:rgba(134,168,255,.35) }
+.item h3{font-size:20px}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:rgba(255,255,255,.07); padding:1px 6px;border-radius:6px}
 
+/* Section title glow */
+.section h2{
+  position:relative; padding-bottom:8px;
+}
+.section h2::after{
+  content:""; position:absolute; left:0; bottom:-2px; height:2px; width:100%;
+  background:linear-gradient(90deg, transparent, #86a8ff, #7ee0ff, transparent);
+  filter:blur(.5px); opacity:.9; border-radius:999px;
+  animation:glowline 3s linear infinite;
+}
+@keyframes glowline{ 0%{background-position:0%} 100%{background-position:200%} }
+
+/* Buttons: glow + ripple */
+.btn{
+  background:linear-gradient(180deg,#9ec2ff,#5b86ff);color:#0a1020;border:none;
+  padding:13px 16px;border-radius:16px;font-weight:900;cursor:pointer;
+  box-shadow:0 10px 22px rgba(79,120,255,.45); transition:.18s transform, .2s box-shadow, filter .2s;
+  position:relative; overflow:hidden; -webkit-tap-highlight-color: transparent;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 18px 32px rgba(79,120,255,.45); filter:saturate(1.05)}
+.btn.alt{background:rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.15); box-shadow:none}
+.btn::after{
+  content:""; position:absolute; inset:0; background:radial-gradient(120px 120px at var(--rx,50%) var(--ry,50%), rgba(255,255,255,.35), transparent 60%);
+  opacity:0; transition:opacity .25s ease;
+}
+.btn:active::after{ opacity:1; transition:opacity .05s }
+
+/* Hero layout */
 .hero{
   display:grid;grid-template-columns:2.2fr 1.2fr;gap:18px;align-items:stretch;
 }
 @media (max-width:980px){ .hero{grid-template-columns:1fr} }
 
-.btn{
-  background:linear-gradient(180deg,#9ec2ff,#5b86ff);color:#0a1020;border:none;
-  padding:13px 16px;border-radius:16px;font-weight:900;cursor:pointer;
-  box-shadow:0 10px 22px rgba(79,120,255,.45); transition:.18s transform, .2s box-shadow;
-}
-.btn:hover{transform:translateY(-2px); box-shadow:0 18px 32px rgba(79,120,255,.45)}
-.btn.alt{background:rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.15); box-shadow:none}
-.kicker{font-weight:900;color:#cfe0ff;letter-spacing:.2px;margin-bottom:4px}
-
-.item{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:14px}
-.item h3{font-size:20px}
-.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:rgba(255,255,255,.07); padding:1px 6px;border-radius:6px}
-
-/* ---- Demo de regras (cartas) ---- */
+/* Demo de regras (cartas) */
 .demo-wrap{position:relative}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
 .tbtn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:var(--text);
-  padding:10px 12px;border-radius:12px;font-weight:800;cursor:pointer}
-.tbtn:hover{background:rgba(255,255,255,.12)}
+  padding:10px 12px;border-radius:12px;font-weight:800;cursor:pointer; transition:transform .2s, box-shadow .2s, border-color .2s}
+.tbtn:hover{background:rgba(255,255,255,.12); transform:translateY(-2px); border-color:rgba(134,168,255,.35); box-shadow:0 10px 22px rgba(0,0,0,.35)}
 .progress{height:8px;border-radius:999px;background:#192456;border:1px solid #2a3a7a;overflow:hidden}
 .fill{height:100%;width:0;background:linear-gradient(90deg,#6fa3ff,#9ec2ff)}
 
@@ -77,7 +96,10 @@ h1,h2,h3{margin:0 0 10px}
   background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))}
 .cols-5{grid-template-columns:repeat(5,1fr)}
 .cardx{aspect-ratio:3/4;border-radius:16px;position:relative;overflow:hidden;cursor:pointer;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), 0 10px 20px rgba(0,0,0,.35); background:#0e1a43}
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), 0 10px 20px rgba(0,0,0,.35); background:#0e1a43;
+  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.cardx:hover{ transform:translateY(-2px); box-shadow:0 16px 30px rgba(0,0,0,.5) }
 .inner{position:absolute;inset:0; transform-style:preserve-3d; transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 .cardx.flip .inner{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center; backface-visibility:hidden}
@@ -86,66 +108,24 @@ h1,h2,h3{margin:0 0 10px}
 .back .emoji{font-size:clamp(26px, 6.5vw, 48px)}
 .matched{outline:4px solid #22c55e; outline-offset:-4px; animation:blink .9s ease 1}
 @keyframes blink{0%{outline-color:#22c55e} 50%{outline-color:#84f3c9} 100%{outline-color:#22c55e}}
-.demo-bw{filter:grayscale(1) brightness(.72) contrast(1.3)}  /* P&B mais escuro */
+.demo-bw{filter:grayscale(1) brightness(.75) contrast(1.25)}
 .inverse{transform:rotate(180deg)}
 .note{color:var(--muted); font-size:14px; margin-top:8px}
 
-/* subtle motions base */
-.fade-in{animation:fade .45s ease both}
-@keyframes fade{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
-.float{animation:float 6s ease-in-out infinite}
-@keyframes float{0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)}}
-
-/* =====✨ EFEITOS EXTRAS (apenas adições) ✨===== */
-/* Botões com leve brilho/shine */
-.btn, .tbtn { position: relative; overflow: hidden; }
-.btn::after, .tbtn::after{
-  content:"";
-  position:absolute; inset:-2px;
-  background: radial-gradient(120% 120% at -20% -20%, rgba(255,255,255,.18), transparent 50%);
-  opacity:.0; transition:opacity .25s; pointer-events:none;
-}
-.btn:hover::after, .tbtn:hover::after{ opacity:.8 }
-
-/* “Shimmer” leve na barra de evento */
-.fill{ position:relative; overflow:hidden }
-.fill::before{
-  content:"";
-  position:absolute; top:0; bottom:0; width:45%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.26), transparent);
-  transform:translateX(-120%);
-  animation:shine 2.2s linear infinite;
-}
-@keyframes shine{ to{ transform:translateX(220%) } }
-
-/* Cartas: hover suave */
-.cardx{ transition: transform .18s, box-shadow .18s }
-.cardx:hover{
-  transform: translateY(-4px);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.24), 0 16px 26px rgba(0,0,0,.45);
+/* Scroll reveal (respeita reduce-motion) */
+.reveal{opacity:0; transform:translateY(12px)}
+.reveal.revealed{opacity:1; transform:translateY(0); transition:opacity .5s ease, transform .5s ease}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1; transform:none}
 }
 
-/* Acertou par: pulso/glow */
-.cardx.matched{
-  box-shadow:inset 0 0 0 2px #22c55e, 0 0 0 0 rgba(34,197,94,.55);
-  animation:hitPulse .9s ease 1;
-}
-@keyframes hitPulse{
-  0%{ box-shadow:inset 0 0 0 2px #22c55e, 0 0 0 0 rgba(34,197,94,.55) }
-  70%{ box-shadow:inset 0 0 0 2px #22c55e, 0 0 0 16px rgba(34,197,94,0) }
-  100%{ box-shadow:inset 0 0 0 2px #22c55e, 0 0 0 0 rgba(34,197,94,0) }
-}
-
-/* Ripple discreto ao clicar (botões) */
-.ripple{
-  position:absolute; border-radius:999px; transform:translate(-50%,-50%);
-  pointer-events:none; background:rgba(255,255,255,.35);
-  animation:ripple .55s ease-out forwards;
-}
-@keyframes ripple{
-  from{ width:0; height:0; opacity:.45 }
-  to{ width:420px; height:420px; opacity:0 }
-}
+/* small helpers */
+.grid{display:grid;gap:14px}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.grid.cols-4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:980px){ .grid.cols-3, .grid.cols-4 {grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .grid.cols-3, .grid.cols-4, .grid.cols-2 {grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -157,13 +137,12 @@ h1,h2,h3{margin:0 0 10px}
         <a href="#design">Design de Jogos</a>
         <a href="#math">Matemática & Computação</a>
         <a href="#regras">Regras do Jogo (demo)</a>
-        <!-- Botão topo -> link do jogo -->
-        <a class="btn alt" href="https://marcosviniciusprogrammer-bot.github.io/metamatl-tica-/" target="_blank" rel="noopener">Jogar agora</a>
+        <!-- botão "Jogar agora" do menu removido conforme pedido -->
       </div>
     </div>
   </div>
 
-  <div class="container section hero fade-in">
+  <div class="container section hero reveal">
     <div class="card">
       <div class="kicker">Projeto educacional</div>
       <h1 style="font-size:clamp(28px,6vw,44px)">Metamatlética</h1>
@@ -185,7 +164,7 @@ h1,h2,h3{margin:0 0 10px}
   </div>
 
   <!-- Pensamento Computacional (conteúdo geral, não do jogo) -->
-  <div class="container section" id="pc">
+  <div class="container section reveal" id="pc">
     <h2>🧠 Pensamento Computacional (visão geral)</h2>
     <p class="lead">Habilidade de <b>formular problemas</b> e <b>expressar soluções de forma executável por pessoas e máquinas</b>. Vale para qualquer área.</p>
     <div class="grid cols-3">
@@ -204,7 +183,7 @@ h1,h2,h3{margin:0 0 10px}
   </div>
 
   <!-- Design de jogos + pipeline -->
-  <div class="container section" id="design">
+  <div class="container section reveal" id="design">
     <h2>🎨 Design de Jogos (do zero ao protótipo)</h2>
     <div class="grid cols-3">
       <div class="item"><h3>1) Ideia & Objetivos</h3><p>Defina a fantasia do jogador, público e plataforma. Ex.: jogo rápido de memória, mobile-first, partidas de 2–4 min.</p></div>
@@ -222,7 +201,7 @@ h1,h2,h3{margin:0 0 10px}
   </div>
 
   <!-- Matemática na Computação -->
-  <div class="container section" id="math">
+  <div class="container section reveal" id="math">
     <h2>🧮 Onde a Matemática entra na Computação</h2>
     <div class="grid cols-3">
       <div class="item"><h3>Lógica & Conjuntos</h3><p>Estados e condições (vitória, “travas”), operações sobre coleções (pares, cartas restantes).</p></div>
@@ -236,7 +215,7 @@ h1,h2,h3{margin:0 0 10px}
   </div>
 
   <!-- Regras do jogo (texto + demo) -->
-  <div class="container section" id="regras">
+  <div class="container section reveal" id="regras">
     <h2>📜 Regras do Jogo (demo interativa)</h2>
 
     <div class="card" style="margin-bottom:12px">
@@ -264,17 +243,36 @@ h1,h2,h3{margin:0 0 10px}
     </div>
   </div>
 
-  <div class="container section" id="jogar">
+  <div class="container section reveal" id="jogar">
     <div class="card">
       <h3>Pronto para jogar?</h3>
       <p>Abra o jogo completo e tente bater seu tempo.</p>
-      <!-- Botão seção final -> link do jogo -->
-      <a class="btn" href="https://marcosviniciusprogrammer-bot.github.io/metamatl-tica-/" target="_blank" rel="noopener">Jogar agora</a>
+      <a class="btn" href="GAME_URL_HERE" target="_blank" rel="noopener">Jogar agora</a>
     </div>
   </div>
 
 <script>
-// ========== demo de regras: flip & eventos ==========
+// ===== pretty button ripple coords
+document.addEventListener('pointerdown', (e)=>{
+  const b = e.target.closest('.btn'); if(!b) return;
+  const r = b.getBoundingClientRect();
+  b.style.setProperty('--rx', (e.clientX - r.left)+'px');
+  b.style.setProperty('--ry', (e.clientY - r.top)+'px');
+});
+
+// ===== scroll reveal
+const toReveal = document.querySelectorAll('.reveal, .item, .card');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.classList.add('revealed');
+      io.unobserve(en.target);
+    }
+  });
+},{threshold:.12});
+toReveal.forEach(el=>io.observe(el));
+
+// ===== demo de regras
 const EMOJIS = ['🍎','🍌','🍇','🍓','🍍','🍒','🍉','🥝','🍐','🍊'];
 const $ = s => document.querySelector(s);
 const shuffle = (a)=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]} return a};
@@ -286,7 +284,6 @@ function buildDeck(){
   const items = EMOJIS.slice(0,10);
   deck = shuffle([...items, ...items]).map((k,i)=>({key:k, open:false, matched:false, id:i}));
 }
-
 function draw(){
   board.innerHTML='';
   deck.forEach((c,idx)=>{
@@ -300,7 +297,6 @@ function draw(){
     board.appendChild(b);
   });
 }
-
 function onFlip(i){
   if(lock) return;
   const a=deck[i]; if(a.open || a.matched) return;
@@ -315,45 +311,30 @@ function onFlip(i){
     sound(320,.09);
   }
 }
-
-// quando TODAS as cartas estiverem casadas, reinicia o demo levemente
 function checkAllOpen(){
-  const allMatched = deck.every(c=>c.matched);
-  if(allMatched){
-    setTimeout(()=>{ initDemo(); }, 900); // reset macio
-  }
+  if(deck.every(c=>c.matched)){ setTimeout(()=>{ initDemo(); }, 900); }
 }
-
-// barra de progresso fake para os eventos de exemplo
+// barra fake
 let t=0, iv=null;
 function startBar(){
   if(iv) clearInterval(iv);
   t=0; $('#bar').style.width='0%';
   iv = setInterval(()=>{ t=(t+1)%101; $('#bar').style.width = t+'%'; }, 120);
 }
-
-// ======= embaralhar seguro, sem travar carta/3 abertas =======
+// embaralhar seguro
 function shuffleUnmatched(){
   if (lock) return;
   lock = true;
-
-  // fecha quaisquer cartas abertas não resolvidas e limpa seleção
   deck.forEach(c => { if (!c.matched) c.open = false; });
   first = null;
-
-  // pega posições e objetos de cartas não resolvidas
   const idxs = [], pool = [];
   deck.forEach((c,i) => { if (!c.matched) { idxs.push(i); pool.push(c); } });
-
-  // embaralha a pool e recoloca nos mesmos slots
   shuffle(pool);
   idxs.forEach((pos, k) => { deck[pos] = { ...pool[k], open:false }; });
-
   draw();
   setTimeout(() => { lock = false; }, 220);
 }
-
-// visão rápida: revela aleatórias por 3s
+// visão rápida
 function peekSome(){
   if(lock) return; lock=true;
   const hidden = deck.map((c,i)=>({c,i})).filter(x=>!x.c.open && !x.c.matched);
@@ -361,11 +342,10 @@ function peekSome(){
   show.forEach(x=>deck[x.i].open=true); draw();
   setTimeout(()=>{ show.forEach(x=>deck[x.i].open=false); draw(); lock=false; }, 3000);
 }
-
 function toggleBW(){ board.classList.toggle('demo-bw'); }
 function toggleInv(){ board.classList.toggle('inverse'); }
 
-// áudio simples (WebAudio)
+// áudio simples
 let ctx; function sound(freq=800,d=.07){
   try{
     ctx = ctx || new (window.AudioContext||window.webkitAudioContext)();
@@ -374,31 +354,13 @@ let ctx; function sound(freq=800,d=.07){
     const t=ctx.currentTime; o.start(t); g.gain.exponentialRampToValueAtTime(0.0001,t+d); o.stop(t+d);
   }catch(e){}
 }
-
-function initDemo(){
-  buildDeck(); draw(); startBar();
-}
-
-// Ripple em .btn e .tbtn (efeito de clique)
-document.addEventListener('click', e=>{
-  const el = e.target.closest('.btn, .tbtn');
-  if(!el) return;
-  const rect = el.getBoundingClientRect();
-  const x = e.clientX - rect.left, y = e.clientY - rect.top;
-  const span = document.createElement('span');
-  span.className = 'ripple';
-  span.style.left = x+'px'; span.style.top = y+'px';
-  el.appendChild(span);
-  setTimeout(()=> span.remove(), 600);
-});
-
-// bind
+function initDemo(){ buildDeck(); draw(); startBar(); }
 $('#btnShuf').onclick=()=>{ if(lock) return; shuffleUnmatched(); startBar(); };
 $('#btnBW').onclick = toggleBW;
 $('#btnInv').onclick = toggleInv;
 $('#btnPeek').onclick = peekSome;
-
 initDemo();
 </script>
 </body>
 </html>
+
